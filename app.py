@@ -1,25 +1,43 @@
+import requests
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Route to return student number
-@app.route('/', methods=['GET'])
+# OpenWeatherMap API Key (Replace with your actual API key)
+API_KEY = "YOUR_OPENWEATHERMAP_API_KEY"
+BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+
+@app.route("/", methods=["GET"])
 def home():
     return jsonify({"student_number": "200622929"})  # Replace with your student number
 
-# Webhook route for Dialogflow fulfillment
-@app.route('/webhook', methods=['POST'])
+@app.route("/webhook", methods=["POST"])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    intent_name = req.get("queryResult").get("intent").get("displayName")
+    intent_name = req.get("queryResult", {}).get("intent", {}).get("displayName")
 
-    if intent_name == "get_weather":
-        fulfillment_text = "The weather today is sunny with a high of 25°C."
+    if intent_name == "get weather":
+        city = "Barrie"  # Replace with user input if needed
+        weather_data = get_weather(city)
+        fulfillment_text = f"The weather in {city} is {weather_data}."
     else:
-        fulfillment_text = "Sorry, I can't help with that."
+        fulfillment_text = "I couldn't find what you're looking for."
 
     return jsonify({"fulfillmentText": fulfillment_text})
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+def get_weather(city):
+    """Fetch weather data from OpenWeatherMap API."""
+    params = {"q": city, "appid": API_KEY, "units": "metric"}
+    response = requests.get(BASE_URL, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        description = data["weather"][0]["description"]
+        temp = data["main"]["temp"]
+        return f"{description} with a temperature of {temp}°C"
+    else:
+        return "unavailable at the moment."
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
 
