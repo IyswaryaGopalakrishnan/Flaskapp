@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # OpenWeatherMap API Key (Replace with your actual API key)
-API_KEY = "YOUR_OPENWEATHERMAP_API_KEY"
+API_KEY = "aab3c901fb7d6d2e7fcfaba881a3aa45"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 @app.route("/", methods=["GET"])
