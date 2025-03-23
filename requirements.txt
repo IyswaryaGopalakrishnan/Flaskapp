@@ -35,3 +35,6 @@ traitlets==5.14.3
 wcwidth==0.2.13
 Werkzeug==3.1.3
 gunicorn
+Flask
+requests
+
