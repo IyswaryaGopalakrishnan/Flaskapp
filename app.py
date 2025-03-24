@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# OpenWeatherMap API Key 
 API_KEY = "aab3c901fb7d6d2e7fcfaba881a3aa45"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
@@ -18,7 +17,7 @@ def webhook():
     intent_name = req.get("queryResult", {}).get("intent", {}).get("displayName")
 
     if intent_name == "get weather":
-        city = "Barrie"  # Replace with user input if needed
+        city = "Barrie"  
         weather_data = get_weather(city)
         fulfillment_text = f"The weather in {city} is {weather_data}."
     else:
