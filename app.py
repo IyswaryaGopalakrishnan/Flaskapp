@@ -4,13 +4,13 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# OpenWeatherMap API Key (Replace with your actual API key)
+# OpenWeatherMap API Key 
 API_KEY = "aab3c901fb7d6d2e7fcfaba881a3aa45"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 @app.route("/", methods=["GET"])
 def home():
-    return jsonify({"student_number": "200622929"})  # Replace with your student number
+    return jsonify({"student_number": "200622929"})  
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -42,7 +42,7 @@ def get_weather(city):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))  # Get the port assigned by Render
+    port = int(os.environ.get("PORT", 10000))  
     app.run(debug=True, host="0.0.0.0", port=port)
 
 
